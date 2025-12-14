@@ -7,14 +7,19 @@ let items = [
     "Помыть посуду",
 ];
 
+// Контейнер, куда будем добавлять задачи
 const listElement = document.querySelector(".to-do__list");
+// Форма для добавления новых задач
 const formElement = document.querySelector(".to-do__form");
+// Поле для ввода текста
 const inputElement = document.querySelector(".to-do__input");
 
+// Функция загрузки задач из хранилища
 function loadTasks() {
     const saved = localStorage.getItem("tasks");
     return saved ? JSON.parse(saved) : items;
 }
+
 // Функция создания элемента задачи
 function createItem(item) {
     const template = document.getElementById("to-do__item-template");
@@ -27,14 +32,14 @@ function createItem(item) {
     // Устанавливаем текст задачи
     textElement.textContent = item;
 
-    // Обработчик для кнопки удаления
+    // Кнопка удаления
     deleteButton.addEventListener('click', function() {
         clone.remove();
         const items = getTasksFromDOM();
         saveTasks(items);
     });
 
-    // Обработчик для кнопки копирования
+    // Кнопка копирования
     duplicateButton.addEventListener('click', function() {
         const itemName = textElement.textContent;
         const newItem = createItem(itemName);
@@ -43,7 +48,7 @@ function createItem(item) {
         saveTasks(items);
     });
 
-    // Обработчик для кнопки редактирования
+    // Кнопак редактирования
     editButton.addEventListener('click', function() {
         textElement.setAttribute('contenteditable', 'true');
         textElement.focus();
@@ -70,7 +75,7 @@ function getTasksFromDOM() {
     return tasks;
 }
 
-// Функция сохранения задач
+// Функция сохранения задач в хранилище
 function saveTasks(tasks) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
@@ -81,6 +86,7 @@ formElement.addEventListener('submit', function(event) {
     
     const taskText = inputElement.value.trim();
     
+    // Проверяем, что поле не пустое
     if (taskText !== '') {
         const newItem = createItem(taskText);
         listElement.prepend(newItem);
