@@ -1,4 +1,4 @@
-let items = [
+const items = [
     "Сделать проектную работу",
     "Полить цветы",
     "Пройти туториал по Реакту",
@@ -7,11 +7,11 @@ let items = [
     "Помыть посуду",
 ];
 
-// Контейнер, куда будем добавлять задачи
+// Контейнер для списка задач
 const listElement = document.querySelector(".to-do__list");
-// Форма для добавления новых задач
+// Форма добавления новых задач
 const formElement = document.querySelector(".to-do__form");
-// Поле для ввода текста
+// Поле ввода текста
 const inputElement = document.querySelector(".to-do__input");
 
 // Функция загрузки задач из хранилища
@@ -35,8 +35,8 @@ function createItem(item) {
     // Кнопка удаления
     deleteButton.addEventListener('click', function() {
         clone.remove();
-        const items = getTasksFromDOM();
-        saveTasks(items);
+        const tasks = getTasksFromDOM();
+        saveTasks(tasks);
     });
 
     // Кнопка копирования
@@ -44,11 +44,11 @@ function createItem(item) {
         const itemName = textElement.textContent;
         const newItem = createItem(itemName);
         listElement.prepend(newItem);
-        const items = getTasksFromDOM();
-        saveTasks(items);
+        const tasks = getTasksFromDOM();
+        saveTasks(tasks);
     });
 
-    // Кнопак редактирования
+    // Кнопка редактирования
     editButton.addEventListener('click', function() {
         textElement.setAttribute('contenteditable', 'true');
         textElement.focus();
@@ -57,8 +57,8 @@ function createItem(item) {
     // Сохранение изменений при завершении редактирования
     textElement.addEventListener('blur', function() {
         textElement.setAttribute('contenteditable', 'false');
-        const items = getTasksFromDOM();
-        saveTasks(items);
+        const tasks = getTasksFromDOM();
+        saveTasks(tasks);
     });
 
     return clone;
@@ -90,15 +90,15 @@ formElement.addEventListener('submit', function(event) {
     if (taskText !== '') {
         const newItem = createItem(taskText);
         listElement.prepend(newItem);
-        const items = getTasksFromDOM();
-        saveTasks(items);
+        const tasks = getTasksFromDOM();
+        saveTasks(tasks);
         inputElement.value = '';
     }
 });
 
 // Инициализация приложения
-items = loadTasks();
-items.forEach(function(item) {
+const initialTasks = loadTasks();
+initialTasks.forEach(function(item) {
     const itemElement = createItem(item);
     listElement.append(itemElement);
 });
